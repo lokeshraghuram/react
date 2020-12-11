@@ -35,6 +35,18 @@ class App extends Component {
           click={this.switchCompany}
         />
 
+        <UserOutput 
+          company={this.state.company}
+          years={8.5}
+          click={this.switchCompany}
+        />
+
+        <UserOutput 
+          company="HCL"
+          years={8.5}
+          click={this.switchCompany}
+        />
+
       </div>
     );
   }
