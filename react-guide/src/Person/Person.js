@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Radium from 'radium';
 
 // class Person extends Component {
 
@@ -15,4 +15,4 @@ const person = (props) => {
     )
 }
 
-export default person;
+export default Radium(person);
