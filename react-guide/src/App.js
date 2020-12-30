@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Person from './Person/Person';
 import './Person/Person.css';
-import './App.css';
-import Radium from 'radium';
+import styles from './App.css';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
 
@@ -78,20 +78,9 @@ class App extends Component {
 
   render() {
 
-    const style = {
-      font: 'inherit',
-      backgroundColor: 'green',
-      color: 'white',
-      border: '1px solid blue',
-      padding: '8px',
-      curser: 'pointer',
-      ':hover':   {
-        backgroundColor: 'lightgreen',
-        color: 'black',
-      }
-    }
-
     let persons = null;
+    let buttonClasses = '';
+
 
     if ( this.state.showPersons ) {
       if(this.state.persons.length > 0) {
@@ -99,12 +88,13 @@ class App extends Component {
           <div>
             {
               this.state.persons.map( (person, index) => {
-                return <Person 
-                  click={() => this.deletePersonHandler(index)}
-                  changed={(event) => this.nameChangeHandler(event, person.id)}
-                  name={person.name}
-                  age={person.age} 
-                  key={person.id}  />
+                return <ErrorBoundary key={person.id}>
+                  <Person 
+                    click={() => this.deletePersonHandler(index)}
+                    changed={(event) => this.nameChangeHandler(event, person.id)}
+                    name={person.name}
+                    age={person.age}/>
+                </ErrorBoundary>
               })
             }
           </div>
@@ -117,34 +107,30 @@ class App extends Component {
         );
       }
 
-      style.backgroundColor = 'red';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
+      //buttonClasses.pop(styles.Button);
+      buttonClasses = styles.Red;
     }
 
-    let classes = [];
+    let assignedClasses = [];
 
     if( this.state.showPersons === false ) {
-      classes.push('green');
+      assignedClasses.push(styles.Button);
     } else {  
       if ( this.state.persons.length >=1 ){
-        classes.push('bold');
+        assignedClasses.push(styles.bold);
       }
       if ( this.state.persons.length >=2 ){
         //classes.pop('orange');
-        classes.push('red');
+        assignedClasses.push(styles.Red);
       }
     }
 
     return (
-      <div className="App">
+      <div className={styles.App}>
         <h1>Hi Lokesh</h1>
         <button 
-          //className={classes.join(' ')}
-          style={style}
-          //onClick={this.switchHandler.bind(this, 'Lok!!')}
+          className={buttonClasses}
+          //className={buttonClasses.join(' ')}
           onClick={this.togglePersonsHandler} 
         >Show Persons</button>
         
@@ -155,4 +141,4 @@ class App extends Component {
   }
 }
 
-export default Radium(App);
+export default App;
